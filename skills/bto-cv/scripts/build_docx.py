@@ -300,7 +300,15 @@ def build(data, output, template=None):
                 p.appendChild(r)
                 for tail in tails:p.appendChild(tail)
         body.appendChild(p)
-    def slot(name,value):emit('{{'+name+'}}',value)
+    def slot(name,value):
+        emit('{{'+name+'}}',value)
+        if name=='experience_bullet':
+            # Override ListParagraph's inherited suppression of same-style gaps.
+            paragraph_properties=body.lastChild.getElementsByTagNameNS(W,'pPr')[0]
+            contextual=paragraph_properties.getElementsByTagNameNS(W,'contextualSpacing')
+            contextual=contextual[0] if contextual else doc.createElementNS(W,'w:contextualSpacing')
+            contextual.setAttributeNS(W,'w:val','0')
+            if contextual.parentNode is None:paragraph_properties.appendChild(contextual)
     def gap(count):
         for _ in range(count):slot('gap','')
     slot('initials',data['initials'])

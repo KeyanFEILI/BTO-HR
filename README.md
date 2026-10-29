@@ -2,7 +2,12 @@
 
 Convert an original PDF or Word CV into an editable BTO Word document in English, using the bundled R.R./A.F.R. master, Century Gothic typography and native square bullet lists.
 
-Version **4.0.2** preserves existing Excel headers, uses plain experience ranges,
+Version **4.0.3** fixes experience bullet spacing in Word by explicitly overriding
+the List Paragraph style’s suppression of spacing between paragraphs of the same
+style. The 5 pt gap now renders between experience bullets; the final bullet in
+each role retains zero after-spacing. Other list sections retain their spacing.
+
+Version 4.0.2 preserves existing Excel headers, uses plain experience ranges,
 and validates the Excel projection before writing. Context-first criteria keep
 recommendations aligned with scores; a content-addressed cache reuses reconciled
 evidence, and a range planner prepares idempotent workbook updates with conflict
