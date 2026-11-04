@@ -27,17 +27,15 @@ Do not merge different people. Use unique IDs and preserve names and accents.
 
 Read [rubric.md](references/rubric.md) before assessment and
 [input-example.json](references/input-example.json) for the calculation schema.
-For each JD, write its actual purpose and expected outcomes into `context`, with
-JD evidence. Classify each criterion as `core`, `prerequisite` or `preferred` and
-record its JD evidence and accepted equivalents before seeing candidate ratings.
-Weight recurring responsibilities, delivery ownership, operating environment and
-scale according to the role; avoid turning every named tool into an equally
-weighted standalone requirement. Keep explicitly required certifications, versions
-and tenure visible as prerequisites; do not assume equivalence.
-Freeze criteria and weights before evaluating candidates. Allocate
-95 points to job-specific role fit, plus up to 5 employer-bonus points. Required
-skills receive more weight than nice-to-haves. Do not silently change the rubric
-to favour a candidate; any correction applies to everyone for that JD.
+Understand the client's need, operating environment and expected outcomes from
+the JD before defining criteria or weights. Record this purpose and its JD evidence
+in `context`. Then classify criteria as `core`, `prerequisite` or `preferred`,
+with JD evidence and accepted equivalents. Weight responsibilities, delivery
+ownership, environment, scale and explicit prerequisites according to their
+importance in that role; don't give every named tool equal standalone weight.
+Freeze criteria and weights before reviewing candidate ratings. Allocate 95 points
+to job-specific fit and up to 5 employer-bonus points. Apply one rubric consistently
+to every candidate for that JD; correct it for everyone if needed.
 
 ## Assess from evidence
 
@@ -72,17 +70,16 @@ files or quotes, and do not modify source CVs. Rankings may be written to the
 user-authorised shared workbook as specified below.
 
 Extract candidate `name` (full name), `latest_location`, `phone`, `email` and
-`source_languages` once. Use the latest explicitly stated candidate location;
-do not substitute an employer's location or infer a current residence. Preserve
-phone prefixes, email spelling and every stated language with its actual level.
-Use empty strings for missing details and display “Not provided”; flag conflicts.
-For each JD/candidate assessment, add `relevant_experience` as a concise years
-value or range only, such as `7-8 years`, `12 years` or `10+ years`, and
-`short_description` as a brief fit/gap summary only. Do not mention scores,
-scoring, points, weights, bonuses or calculation details in descriptions, in chat
-or Excel; keep the score in its separate labelled field. Never display "approximately",
-"evidenced through", source snapshot dates or parenthetical scope calculations
-in experience entries, in chat or Excel. Keep those details in private notes.
+`source_languages` once. For location, prefer an explicitly stated current
+candidate location; otherwise use the city/country on the latest experience, then
+another city/country explicitly stated for the candidate. Never infer residence
+from an employer's location. Preserve contact spelling and language levels in
+private data; use empty strings for missing details and flag conflicts.
+For each JD/candidate assessment, keep `relevant_experience` and evidence in
+private data. Write `short_description` as a concise fit/gap summary. Do not
+mention score calculations, weights or bonuses in that description or in Excel.
+Never display "approximately", "evidenced through", source snapshot dates or
+parenthetical scope calculations. Keep those details in private notes.
 Calculate relevant years for that JD from supported role dates, count overlapping
 periods once, and retain date uncertainty. Do not substitute total career length
 or invent precision. Use “Cannot determine” when dates/scope are insufficient.
@@ -112,21 +109,16 @@ the score as a hiring probability or a definitive judgment of competence.
 
 Assess every candidate privately, but include only final scores >=60/100 in the
 chat ranking, using the unrounded total (exactly 60 qualifies). Do not name or
-describe candidates below 60 unless the user explicitly asks for them. Preserve
-the calculator's order and ranks. If none reaches 60, say that no candidate met
-the chat threshold without listing names. Every displayed candidate entry must show:
-full name, latest location, years of relevant experience, short description,
-phone number, email address and languages, plus rank, score /100 and JD language
-flags. Use compact ranked entries with labelled fields to avoid an overly wide
-table. Show source languages separately from JD language flags (`languages` in
-the calculator output). Never omit these fields for lower-ranked candidates.
-State the JD's weighting once
-and show employer bonus separately, e.g. “78.5 = 76/95 + 2.5/5”. Explain lower
-rankings using their largest weighted gaps and distinguish missing evidence from
-confirmed shortfalls. Mention other explicit must-have gaps independently.
-If all candidates match poorly, say so; do not manufacture a strong shortlist.
-With multiple JDs, repeat the ranking per JD rather than pooling scores across
-different rubrics. Default to English and concise chat output.
+describe candidates below 60 unless explicitly requested. Preserve calculator
+order and ranks. If none reaches 60, say the threshold was not met without listing
+names. For each displayed candidate show only: rank, match percentage, full name,
+city/country location and a concise fit/gap description. Show phone number and
+email only when the unrounded final score is >=80 (exactly 80 qualifies). Do not
+show years, languages, language flags, score breakdowns, weighting explanations
+or other candidate fields in chat. The match percentage appears only as its
+labelled field; never discuss scoring in the description. Keep the list concise.
+If all candidates match poorly, state that briefly without inventing strengths.
+Repeat a separate ranking for each JD. Default to English.
 
 Deliver in two stages. First send the complete filtered ranking in a user-visible
 chat message before any Excel inspection, planning or writes. Say that the Excel
@@ -139,8 +131,9 @@ override privately and preserve the actual score. The 60-point chat threshold
 does not lower the 80-point Excel threshold. Match the JD to an existing role sheet before creating any new sheet.
 Never add, rename or reorder headers on existing sheets. New sheets for unrelated
 roles must copy existing headers exactly. Missing columns are omitted from Excel;
-keep those fields in chat/private notes. Do not create Language flags or Ranking
-run columns, or insert their contents into other fields. Reuse the exact
+keep those fields in private assessment notes. Do not create Language flags or Ranking
+run columns, write rank values, or insert those contents into other fields. Rank
+is chat-only. Reuse the exact
 ranking data; do not reassess CVs for Excel.
 After Excel work, send a brief separate completion message reporting verified
 updates, no eligible changes, or a concrete sync blocker. Do not repeat the ranking

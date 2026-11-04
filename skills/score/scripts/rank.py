@@ -71,12 +71,11 @@ def rank(data):
     for job in jobs.values():
         require(text(job.get('title')), 'JD title missing')
         criteria = indexed(job.get('criteria'), 'criteria')
-        contextual = 'context' in job
-        if contextual:
-            context = job['context']
-            require(isinstance(context, dict) and text(context.get('purpose'))
-                    and evidence(context.get('evidence')),
-                    'Job context needs its purpose and JD evidence')
+        require(len(criteria) <= 10, 'JD criteria must not exceed 10')
+        context = job.get('context')
+        require(isinstance(context, dict) and text(context.get('purpose'))
+                and evidence(context.get('evidence')),
+                'Each JD needs its purpose and supporting JD evidence')
         for criterion in criteria.values():
             require(text(criterion.get('text')), 'Criterion text missing')
             weight = criterion.get('weight')
@@ -84,14 +83,13 @@ def rank(data):
             require(type(criterion.get('required', False)) is bool, 'required must be boolean')
             require(criterion.get('kind') in ('skills', 'delivery', 'experience', 'sector'),
                     'Criterion kind must be skills, delivery, experience or sector; no language/employer criteria')
-            if contextual:
-                require(criterion.get('priority') in ('core', 'prerequisite', 'preferred'),
-                        'Context criteria need core/prerequisite/preferred priority')
-                require(evidence(criterion.get('jd_evidence')),
-                        'Context criteria need JD evidence')
-                require(isinstance(criterion.get('accepted_equivalents', []), list)
-                        and all(text(v) for v in criterion.get('accepted_equivalents', [])),
-                        'accepted_equivalents must be a list of explicit interpretations')
+            require(criterion.get('priority') in ('core', 'prerequisite', 'preferred'),
+                    'Every criterion needs core/prerequisite/preferred priority')
+            require(evidence(criterion.get('jd_evidence')),
+                    'Every criterion needs JD evidence')
+            require(isinstance(criterion.get('accepted_equivalents', []), list)
+                    and all(text(v) for v in criterion.get('accepted_equivalents', [])),
+                    'accepted_equivalents must be a list of explicit interpretations')
         require(sum(c['weight'] for c in criteria.values()) == 95, 'JD weights must total 95')
         languages = job.get('languages', [])
         require(isinstance(languages, list), 'JD languages must be a list')
@@ -129,7 +127,7 @@ def rank(data):
             require(status == 'unknown' or evidence(item.get('evidence')),
                     'Supported ratings need CV evidence; otherwise use unknown')
             basis = item.get('match_basis', 'direct')
-            if 'context' in job and status in ('met', 'partial'):
+            if status in ('met', 'partial'):
                 require(basis in ('direct', 'equivalent', 'adjacent'), 'Invalid match_basis')
                 if basis == 'equivalent':
                     require(text(item.get('equivalence_reason'))
@@ -190,7 +188,7 @@ def rank(data):
                 position, previous = i, row['score']
             row['rank'] = position
         output.append(dict(jd_id=jid, title=jobs[jid]['title'],
-                           context=jobs[jid].get('context', {}),
+                           context=jobs[jid]['context'],
                            recommended_candidate_ids=[r['candidate_id'] for r in rows if r['rank'] == 1],
                            ranking=rows))
     return output

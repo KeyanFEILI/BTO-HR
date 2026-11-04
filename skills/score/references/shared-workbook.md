@@ -55,8 +55,9 @@ following header mapping is a starting point; verify the actual sheet headers.
 | source_languages | Languages |
 
 The existing header row is fixed: never add, rename or reorder columns. If a
-field has no existing equivalent column, omit it from Excel and retain it in chat
-and private notes. Language flags and ranking-run metadata stay outside Excel.
+field has no existing equivalent column, omit it from Excel and retain it in
+private notes. Any chat display follows the Score skill's output rules. Language
+flags and ranking-run metadata stay outside Excel.
 Do not repurpose Notes, unused columns or descriptions to bypass this rule.
 
 For Match, inspect the existing number format: a percentage cell receives

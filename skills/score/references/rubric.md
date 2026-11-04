@@ -1,32 +1,34 @@
 # Scoring contract
 
-## Role fit: 95 points
+## Understand the role before scoring
 
-Derive 4–10 distinct criteria from each JD. Weights are positive integers totalling
-95. Combine overlapping wording so the same requirement is not scored twice.
-Prefer explicit delivery and required capabilities to nice-to-haves. A typical
-starting allocation is core skills 40, responsibility/delivery fit 30, relevant
-experience/seniority 15 and sector/nice-to-haves 10; adapt to the actual JD, without
-adding requirements it does not contain. Do not score CV design or keyword volume.
-Exclude languages and employer prestige from these 95 points.
+First state the client's need, operating environment and expected outcomes using
+evidence from the JD. Identify explicit prerequisites and distinguish core outcomes
+from preferred qualifications. Group overlapping tools under the capability they
+serve. Give comparable credit for documented equivalent delivery only where the JD
+allows it, and record accepted equivalents. Keep strict product, version and
+certification requirements explicit; a related title or certificate alone does
+not prove equivalence.
 
-## Context before candidate assessment
+Only after this context is clear, define and freeze criteria and weights before
+reviewing candidates. Use positive integer weights totalling 95 for role fit.
+Aim for 4–10 distinct criteria when the JD supports that level of detail; allow
+fewer when it does not, rather than inventing requirements or splitting one
+requirement into artificial criteria. Cap the list at 10. Combine overlap so one
+requirement is not scored twice. Weight core outcomes and prerequisites by their
+importance in this role, then preferred qualifications. A typical starting
+allocation is core skills 40, responsibility/delivery fit 30, relevant
+experience/seniority 15 and sector/nice-to-haves 10; adapt to the JD. Do not score
+CV design or keyword volume. Languages and employer prestige are outside the
+95 role-fit points.
 
-State the work the client needs done, its operating environment and expected
-outcomes, supported by JD evidence. Group overlapping tool lists under the
-capability they serve. Give comparable credit for documented equivalent delivery
-where the JD allows it, using accepted equivalents frozen in the criterion.
-A strict product/version/certification requirement remains explicit; a related
-certificate or title alone does not prove equivalence. For example, network
-operations ownership and migration/NAC delivery may be more central than a long
-list of product names, while a specific legal/licensing prerequisite stays visible.
-
-Context criteria carry `priority` (`core`, `prerequisite`, `preferred`),
-`jd_evidence` and optional `accepted_equivalents`. A supported rating may set
-`match_basis` to `direct`, `equivalent` or `adjacent`; equivalent matches name the
-frozen `equivalent` and explain `equivalence_reason`. Adjacent evidence cannot
-receive more than 0.5. Do not treat labs, awareness training or operational KPIs
-as equivalent to production ownership, programme coaching or Agile delivery metrics.
+Each criterion records `priority` (`core`, `prerequisite`, `preferred`) and
+`jd_evidence`, with optional frozen `accepted_equivalents`. A supported rating
+uses `match_basis`: `direct`, `equivalent` or `adjacent`. An equivalent must name
+the frozen `equivalent` and explain `equivalence_reason`. Adjacent evidence cannot
+receive more than 0.5. For example, labs, awareness training or operational KPIs
+do not by themselves establish production ownership, programme coaching or Agile
+delivery metrics.
 
 Each rating has a status, value, evidence references and a concise reason:
 
@@ -83,10 +85,9 @@ bonus, evidence-coverage percentage or tie-breaks.
 
 ## Output and limits
 
-Scores are demonstrated CV-to-JD fit under an explicit rubric, not objective
-quality or hiring probabilities. Highlight top matches and explain low scores in
-one short sentence using their most consequential weighted gaps. Avoid vague
-judgments such as “weak candidate” when the actual issue is missing CV evidence.
-Always assess every supplied CV for every supplied JD. Keep evidence and temporary
-files local to the task; no external API, package installation or CV upload is
-required for scoring arithmetic.
+Assess every supplied CV for every supplied JD. Scores represent demonstrated
+CV-to-JD fit under an explicit rubric, not objective quality or hiring probability.
+Keep evidence and weighted gaps in private assessment data. Follow the Score skill
+for chat fields and thresholds; never discuss score calculations in
+`short_description`. Keep evidence and temporary files local; no external API,
+package installation or CV upload is required for scoring arithmetic.
