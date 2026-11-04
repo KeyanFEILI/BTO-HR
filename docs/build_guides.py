@@ -10,7 +10,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Image
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = json.loads((ROOT / 'plugin.json').read_text())['version']
-DATE = '20 October 2026'
+DATE = '4 November 2026'
 TEAL = colors.HexColor('#00665F')
 INK = colors.HexColor('#203239')
 STYLES = {
@@ -94,7 +94,7 @@ team = [
     p('BTO HR : score', 'h'),
     p('Attach one or more JDs and multiple CVs. Each JD receives its own ranking: 95 role-fit points plus up to 5 for relevant large-company/consulting experience. Language gaps are flagged without changing scores. Every entry includes full name, latest stated location, relevant years, description, phone, email and source language levels.'),
     p('The shared workbook is <b>BTO candidates</b>. When prompted, provide its Excel sharing link. Sign in to Microsoft if requested and make sure you can edit the workbook. Ask Keyan if you need the link or access.'),
-    p('Each ranking also updates <b>BTO candidates</b> for candidates scoring <b>at least 80/100</b>; all candidates remain in the chat ranking. Match the JD to an existing role sheet. Create a new sheet only for an unrelated role, using the JD title and existing headers. Reuse candidate rows, leave missing data blank and preserve colleague notes, rates and existing known values. Read back writes and confirm save; otherwise report the sync blocker.'),
+    p('Each ranking also updates <b>BTO candidates</b> for candidates scoring <b>at least 80/100</b>; the chat ranking normally includes candidates scoring at least 60/100. Lower-scoring candidates are assessed privately and shown only when explicitly requested. Match the JD to an existing role sheet. Create a new sheet only for an unrelated role, using the JD title and existing headers. Reuse candidate rows, leave missing data blank and preserve colleague notes, rates and existing known values. Read back writes and confirm save; otherwise report the sync blocker.'),
     p('BTO HR : trello', 'h'),
     p('Enable the Trello connection in Codex and complete Trello sign-in. Verify read access to the BTO LUX Talent Pool board: <link href="https://trello.com/b/rHwW3Keo/talent-pool" color="#00665F">Open Talent Pool</link>. Confirm its lists and labels load. Then attach CVs and ask to add candidates; the skill checks duplicates, fills profiles, chooses role lists and applies seniority. Ask explicitly for client opportunity copies.'),
     p('Acceptance report', 'h'),
