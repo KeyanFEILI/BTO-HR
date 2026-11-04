@@ -53,8 +53,7 @@ languages; missing details are never invented.
 Every ranking also updates the user's configured shared Excel workbook when
 accessible. Final scores **>=80/100** qualify for automatic Excel export; explicit user
 selection can override this for named candidates without changing their scores.
-The chat still lists
-all candidates. Match the JD to an existing role sheet. Create a sheet for an
+The chat ranking normally includes candidates scoring at least 60/100. Lower-scoring candidates are assessed privately and shown only when explicitly requested. Match the JD to an existing role sheet. Create a sheet for an
 unrelated role using the JD title and the existing headers. Repeated candidates
 update their existing row, missing details stay blank, and colleague-managed
 fields are preserved. Existing headers are never added, renamed or reordered;

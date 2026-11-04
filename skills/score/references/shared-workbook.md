@@ -45,7 +45,6 @@ following header mapping is a starting point; verify the actual sheet headers.
 
 | Ranking data | Existing header to reuse, when present |
 | --- | --- |
-| rank | Rank |
 | candidate (full name) | Candidate |
 | score /100 | Match |
 | latest_location | Latest location |
@@ -109,11 +108,7 @@ Do not replace colleague notes with language flags. Preserve formulas, validatio
 formatting and candidates not included in this run. Do not reorder whole rows
 without preserving their associated manual fields.
 
-Rank describes the current comparison set; do not imply that ranks from separate
-batches form one global ranking. When updating only a subset, state its scope
-and date in chat and private notes, without annotating workbook cells. Re-rank
-the full posting pool only when its assessments are available under the same JD
-rubric; never invent scores for existing unassessed candidates.
+Ranks describe only the current comparison set and remain in the chat and private assessment notes. Do not write ranks to the workbook's existing Rank column; it is colleague-managed and must be preserved. When updating only a subset, state its scope and date in chat and private notes. Re-rank the full posting pool only when its assessments are available under the same JD rubric; never invent scores for existing unassessed candidates.
 
 ## Efficient writes and verification
 
