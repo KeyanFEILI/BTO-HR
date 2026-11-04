@@ -43,25 +43,24 @@ The complete content contract is in [content.md](skills/bto-cv/references/conten
 
 ## Candidate scoring and shared Excel
 
-Use `$score` with one or more JDs and multiple CVs. Each JD gets a separate
-ranking with weights adapted to its requirements: 95 role-fit points plus up to
-5 for relevant large-company/consulting experience. Required-language gaps are
-flagged without changing the score. Every candidate entry includes full name,
-latest stated location, relevant years, short description, phone, email and
-languages; missing details are never invented.
+Use `$score` with one or more JDs and multiple CVs. Each JD receives a separate,
+context-led ranking with 95 role-fit points plus up to 5 employer-bonus points.
+Chat shows candidates scoring **>=60/100** with rank, match percentage, name,
+city/country, and a brief fit/gap description. Phone and email appear in chat
+only at **>=80/100**. Lower-scoring candidates are assessed privately and shown
+only when explicitly requested.
 
-Every ranking also updates the user's configured shared Excel workbook when
-accessible. Final scores **>=80/100** qualify for automatic Excel export; explicit user
-selection can override this for named candidates without changing their scores.
-The chat ranking normally includes candidates scoring at least 60/100.
-Lower-scoring candidates are assessed privately and shown only when explicitly
-requested. Match the JD to an existing role sheet. Create a sheet for an
-unrelated role using the JD title and the existing headers. Repeated candidates
-update their existing row, missing details stay blank, and colleague-managed
-fields are preserved. Existing headers are never added, renamed or reordered;
-fields without a column stay in chat/private notes. XP uses plain years or ranges.
-Language flags, batch labels and score arithmetic are not appended to workbook
-descriptions or new columns. No background process or workbook access is installed.
+Each ranking also updates the configured shared Excel workbook when accessible.
+Final scores **>=80/100** qualify for automatic export; explicit user selection
+can override this for named candidates without changing their scores. Match the JD
+to an existing role sheet. Create a sheet for an unrelated role using the JD title
+and existing headers. Repeated candidates update their existing row, missing
+details stay blank, and colleague-managed fields are preserved. Existing headers
+are never added, renamed or reordered; fields without a column stay in private
+notes. Rank remains chat-only and is not written to Excel. XP uses plain years or
+ranges. Language flags, batch labels and score arithmetic are not appended to
+workbook descriptions or new columns. No background process or workbook access
+is installed.
 
 Configure the workbook with `SCORE_WORKBOOK_URL` or a private, ignored
 `skills/score/references/workbook.local.json` containing `{"url": "your sharing link"}`.

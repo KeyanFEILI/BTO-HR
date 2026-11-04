@@ -3,6 +3,12 @@
     {
       "id": "jd-1",
       "title": "Example Software Engineer",
+      "context": {
+        "purpose": "Deliver production software features reliably with independent ownership.",
+        "evidence": [
+          "example-jd.pdf p.1: Own the delivery of tested production software features."
+        ]
+      },
       "criteria": [
         {
           "id": "core",
@@ -59,13 +65,7 @@
           "condition": "English C1 required",
           "required": true
         }
-      ],
-      "context": {
-        "purpose": "Deliver production software features reliably with independent ownership.",
-        "evidence": [
-          "example-jd.pdf p.1: Own the delivery of tested production software features."
-        ]
-      }
+      ]
     }
   ],
   "candidates": [
