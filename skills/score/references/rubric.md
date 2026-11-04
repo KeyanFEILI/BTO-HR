@@ -87,9 +87,7 @@ bonus, evidence-coverage percentage or tie-breaks.
 
 Assess every supplied CV for every supplied JD. Scores represent demonstrated
 CV-to-JD fit under an explicit rubric, not objective quality or hiring probability.
-Keep evidence, weighted gaps and score calculations in private assessment data.
-In chat, show only rank, match percentage, name, city/country, and a brief fit/gap
-description for candidates at 60/100 or above; add phone and email only at 80/100
-or above. Keep the description free of scoring commentary. Keep evidence and
-temporary files local; no external API, package installation or CV upload is
-required for scoring arithmetic.
+Keep evidence and weighted gaps in private assessment data. Follow the Score skill
+for chat fields and thresholds; never discuss score calculations in
+`short_description`. Keep evidence and temporary files local; no external API,
+package installation or CV upload is required for scoring arithmetic.

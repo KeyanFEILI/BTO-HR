@@ -188,7 +188,7 @@ def rank(data):
                 position, previous = i, row['score']
             row['rank'] = position
         output.append(dict(jd_id=jid, title=jobs[jid]['title'],
-                           context=jobs[jid].get('context', {}),
+                           context=jobs[jid]['context'],
                            recommended_candidate_ids=[r['candidate_id'] for r in rows if r['rank'] == 1],
                            ranking=rows))
     return output
