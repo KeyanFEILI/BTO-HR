@@ -27,6 +27,8 @@ Keep every source or user-approved skill in IT SKILLS, even when it also appears
 
 Use no more than four coherent categories appropriate to that candidate. Retain all tools and methods from the source skills section; include relevant supported tools from experience environments where useful. Do not infer proficiency from a mention. Category consolidation is organizational, not a reason to remove skills. A possible grouping is Identity and data; Programming and frameworks; Systems and platforms; Methods and testing. These titles are examples, not a compulsory taxonomy.
 
+Within IT SKILLS, use one occurrence of each skill where it makes sense: place it in the most relevant category and combine synonymous or overlapping descriptions. Preserve distinct technologies, versions, scope and proficiency qualifiers; do not merge related but different capabilities or lose a skill to enforce uniqueness. Reconcile the consolidated inventory against the source before delivery. Repetition under experience remains intentional.
+
 ## Languages and exams
 
 English language names; source order; one proficiency in one pair of parentheses; no text after the closing parenthesis. Only the following display labels are used. This is a BTO display convention, not an independent proficiency assessment:

@@ -20,6 +20,8 @@ languages in source order using the prescribed proficiency convention.
 Keep every source or user-approved skill in IT SKILLS, even when it also appears
 under experience. Before delivery, compare the skills inventory with IT SKILLS
 and restore any missing items; keep the four-group limit.
+Within IT SKILLS, consolidate repetitions and overlaps according to content.md;
+keep distinct skills and qualifiers, and retain repetition under experience.
 
 The installed master includes the approved margins, body gaps, native square
 lists and 1.5-line spacing on each “Main responsibilities:” label. Do not imitate

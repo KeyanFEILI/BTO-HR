@@ -2,17 +2,19 @@
 
 Convert an original PDF or Word CV into an editable BTO Word document in English, using the bundled R.R./A.F.R. master, Century Gothic typography and native square bullet lists.
 
-Version **4.0.3** fixes experience bullet spacing in Word by explicitly overriding
-the List Paragraph style’s suppression of spacing between paragraphs of the same
-style. The 5 pt gap now renders between experience bullets; the final bullet in
-each role retains zero after-spacing. Other list sections retain their spacing.
+Version **4.0.4** applies 5 pt after-spacing to every IT SKILLS bullet, including
+category-final bullets, using the same visible-gap logic as experience lists.
+IT SKILLS consolidates repeated or overlapping descriptions where meaning is
+preserved; distinct technologies, versions and proficiency qualifiers remain.
+Repetition between experience and IT SKILLS is intentional. Experience spacing
+remains 5 pt except for the final bullet of each role (0 pt).
 
 Version 4.0.2 preserves existing Excel headers, uses plain experience ranges,
 and validates the Excel projection before writing. Context-first criteria keep
 recommendations aligned with scores; a content-addressed cache reuses reconciled
 evidence, and a range planner prepares idempotent workbook updates with conflict
 checks. Direct range writes require a connected Excel session; the planner does
-not provide authentication or cloud access. It bundles BTO CV conversion, `score` for JD-specific rankings and shared Excel shortlists, and `trello` for Trello cards without file uploads. It also requires every source or user-approved skill to remain in IT SKILLS even when repeated under experience, with an inventory check before delivery. It retains the streamlined build-and-verify command and the measured Word layout: experience bullets have 5 pt after-spacing except the final bullet in each role, while other lists keep their existing spacing. Each “Main responsibilities:” label keeps its 1.5-line spacing. Wording stays unchanged unless translation or necessary cleanup is required. Candidate facts and documents are never repository fixtures.
+not provide authentication or cloud access. It bundles BTO CV conversion, `score` for JD-specific rankings and shared Excel shortlists, and `trello` for Trello cards without file uploads. It also requires every source or user-approved skill to remain in IT SKILLS even when repeated under experience, with an inventory check before delivery. It retains the streamlined build-and-verify command and the measured Word layout: experience bullets have 5 pt after-spacing except the final bullet in each role, and all IT skills bullets have 5 pt after-spacing; other lists keep their existing spacing. Each “Main responsibilities:” label keeps its 1.5-line spacing. Wording stays unchanged unless translation or necessary cleanup is required. Candidate facts and documents are never repository fixtures.
 
 ## Install and update
 

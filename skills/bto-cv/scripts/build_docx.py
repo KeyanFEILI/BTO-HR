@@ -302,9 +302,10 @@ def build(data, output, template=None):
         body.appendChild(p)
     def slot(name,value):
         emit('{{'+name+'}}',value)
-        if name=='experience_bullet':
+        if name in ('experience_bullet','skill_bullet'):
             # Override ListParagraph's inherited suppression of same-style gaps.
             paragraph_properties=body.lastChild.getElementsByTagNameNS(W,'pPr')[0]
+            paragraph_properties.getElementsByTagNameNS(W,'spacing')[0].setAttributeNS(W,'w:after','100')
             contextual=paragraph_properties.getElementsByTagNameNS(W,'contextualSpacing')
             contextual=contextual[0] if contextual else doc.createElementNS(W,'w:contextualSpacing')
             contextual.setAttributeNS(W,'w:val','0')
