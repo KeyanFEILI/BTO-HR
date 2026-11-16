@@ -34,9 +34,9 @@ def strings(value, label):
 LANGUAGE_LEVELS={
     'native':'Native','mother tongue':'Native','bilingual':'Native','bilingue':'Native',
     'langue maternelle':'Native','fluent':'Fluent','courant':'Fluent','usage courant':'Fluent',
-    'c1':'Fluent','c2':'Fluent','b2':'Professional','basic':'Professional',
-    'a1':'Professional','a2':'Professional','b1':'Professional','professional':'Professional',
-    'full professional':'Professional','intermediate':'Professional','notions':'Professional',
+    'c1':'Fluent','c2':'Fluent','b2':'Professional',
+    'b1':'Professional','professional':'Professional',
+    'full professional':'Professional','intermediate':'Professional',
     'bonnes notions':'Professional','très bonnes notions':'Professional',
 }
 LEVEL_PATTERN=r'\b(?:'+ '|'.join(re.escape(k) for k in sorted(LANGUAGE_LEVELS,key=len,reverse=True))+r')\b'
@@ -184,7 +184,7 @@ def qualification_label(value):
 def responsibility_list(values):
     seen=set()
     for value in values:
-        if re.match(r'^(?:(?:objective|objectif)(?:\s+(?:project|projet)(?:\s+IAM)?(?:\s+\d+)?)?|main responsibilities|activités récurrentes|recurring activities|interest|intérêt)\s*(?::|$)',value,re.I):
+        if re.match(r'^(?:(?:objective|objectif)(?:\s+(?:project|projet)(?:\s+IAM)?(?:\s+\d+)?)?|main responsibilities|activités récurrentes|recurring activities|interest|intérêt)\s*(?::|$)', value, re.I):
             raise ValueError('Redundant responsibility label; integrate its source content into the relevant responsibility: '+value)
         key=re.sub(r'\s+',' ',value).casefold().rstrip(' .;')
         if key in seen:raise ValueError('Duplicate responsibility; consolidate only within the same project or clarify distinct project scope: '+value)
