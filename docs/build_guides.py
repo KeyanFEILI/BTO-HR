@@ -10,7 +10,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, PageBreak, Image
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = json.loads((ROOT / 'plugin.json').read_text())['version']
-DATE = '4 November 2026'
+DATE = '20 November 2026'
 TEAL = colors.HexColor('#00665F')
 INK = colors.HexColor('#203239')
 STYLES = {
@@ -94,11 +94,11 @@ team = [
     p('BTO HR : score', 'h'),
     p('Attach one or more JDs and multiple CVs. Define the role context and freeze JD-based criteria and weights before comparing candidates. Chat shows candidates scoring at least 60/100 with rank, match percentage, name, city/country and a brief fit/gap description. Rank remains chat-only; phone and email appear in chat only at 80/100 or above.'),
     p('The shared workbook is <b>BTO candidates</b>. When prompted, provide its Excel sharing link. Sign in to Microsoft if requested and make sure you can edit the workbook. Ask Keyan if you need the link or access.'),
-    p('Each ranking also updates <b>BTO candidates</b> for candidates scoring <b>at least 80/100</b>; the chat ranking includes candidates scoring at least 60/100. Lower-scoring candidates are assessed privately and shown only when explicitly requested. Match the JD to an existing role sheet. Create a new sheet only for an unrelated role, using the JD title and existing headers. Reuse candidate rows, leave missing data blank and preserve colleague notes, rates and existing known values. Read back writes and confirm save; otherwise report the sync blocker.'),
+    p('Only when explicitly requested, update <b>BTO candidates</b> for candidates scoring <b>at least 80/100</b>; the chat ranking includes candidates scoring at least 60/100. Ask for detailed scoring to see must-have/nice-to-have counts, the overall weighted score, requirement evidence, industries and recent employers/clients. Both modes use the same assessment. Prefer bulk Excel writes and verify once. Lower-scoring candidates are assessed privately and shown only when explicitly requested. Match the JD to an existing role sheet. Create a new sheet only for an unrelated role, using the JD title and existing headers. Reuse candidate rows, leave missing data blank and preserve colleague notes, rates and existing known values. Read back writes and confirm save; otherwise report the sync blocker.'),
     p('BTO HR : trello', 'h'),
     p('Enable the Trello connection in Codex and complete Trello sign-in. Verify read access to the BTO LUX Talent Pool board: <link href="https://trello.com/b/rHwW3Keo/talent-pool" color="#00665F">Open Talent Pool</link>. Confirm its lists and labels load. Then attach CVs and ask to add candidates; the skill checks duplicates, fills profiles, chooses role lists and applies seniority. Ask explicitly for client opportunity copies.'),
     p('Acceptance report', 'h'),
-    p('Report installed version, the three visible skills, updater/hook status, sample CV result, BTO candidates edit access and Trello board access. List any remaining blockers. Verify actual Excel writes on the first requested candidate ranking; use read-only service checks during installation.'),
+    p('Report installed version, the three visible skills, updater/hook status, sample CV result, BTO candidates edit access and Trello board access. List any remaining blockers. Verify actual Excel writes on the first explicit Excel-update request; use read-only service checks during installation.'),
 ]
 
 owner = [
@@ -126,7 +126,7 @@ owner = [
     command('python docs/build_guides.py'),
     p('Render and inspect every onboarding page before publishing. Never commit private workbook configuration, candidate CVs, rankings or reconciliation data. '),
     p('5. Refresh an installation', 'h'),
-    p('After an update, confirm Score still opens BTO candidates. If asked for the workbook again, provide its sharing link.'),
+    p('After an update, verify standard and detailed chat output. Open BTO candidates only for an explicit Excel-update request; provide the sharing link if needed.'),
     command('codex plugin marketplace upgrade bto-cv-marketplace'),
     command('codex plugin add bto-hr@bto-cv-marketplace --json'),
     command('codex plugin list --marketplace bto-cv-marketplace --json'),

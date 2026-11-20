@@ -1,4 +1,4 @@
-# Reuse evidence, deliver the ranking, then update Excel
+# Reuse evidence, deliver the assessment, update Excel only when asked
 
 Follow the chat-first delivery sequence and display threshold in
 [SKILL.md](../SKILL.md). This reference covers evidence reuse and Excel planning.

@@ -60,6 +60,41 @@ def bonus(assignments):
     return 5 if distinct else 2.5 if keys else 0
 
 
+def match_summary(job, assessment, details):
+    """Count full requirement matches without changing weighted scoring."""
+    requirements = job.get('requirements')
+    if requirements is None:
+        rows = [dict(text=c['criterion'], group='must_have' if c['required'] else 'nice_to_have',
+                     status=c['status'], reason=c['reason'], evidence=c['evidence']) for c in details]
+        basis = 'grouped_criteria'
+    else:
+        indexed(requirements, 'requirements')
+        ratings = assessment.get('requirement_ratings', {})
+        require(isinstance(ratings, dict) and set(ratings) == {r['id'] for r in requirements},
+                'Incomplete requirement ratings')
+        rows = []
+        for item in requirements:
+            require(text(item.get('text')) and evidence(item.get('jd_evidence')),
+                    'Requirements need their text and JD evidence')
+            require(item.get('group') in ('must_have', 'nice_to_have'), 'Invalid requirement group')
+            rating = ratings[item['id']]
+            require(isinstance(rating, dict) and rating.get('status') in
+                    ('met', 'partial', 'not_met', 'unknown') and text(rating.get('reason')),
+                    'Invalid requirement rating')
+            require(rating['status'] == 'unknown' or evidence(rating.get('evidence')),
+                    'Supported requirement ratings need CV evidence')
+            rows.append(dict(**item, status=rating['status'], reason=rating['reason'],
+                             evidence=rating.get('evidence', [])))
+        basis = 'requirements'
+    summary = {'basis': basis}
+    for group in ('must_have', 'nice_to_have'):
+        selected = [r for r in rows if r['group'] == group]
+        matched = sum(r['status'] == 'met' for r in selected)
+        summary[group] = dict(matched=matched, total=len(selected),
+                              percentage=round(100 * matched / len(selected), 1) if selected else None)
+    return summary, rows
+
+
 def rank(data):
     require(isinstance(data, dict), 'Input must be an object')
     jobs = indexed(data.get('jobs'), 'jobs')
@@ -68,6 +103,14 @@ def rank(data):
         require(text(candidate.get('name')), 'Candidate name missing')
         for field in ('latest_location', 'phone', 'email', 'source_languages'):
             require(isinstance(candidate.get(field, ''), str), f'{field} must be text')
+        for field in ('industries', 'recent_assignments'):
+            require(isinstance(candidate.get(field, []), list), f'{field} must be a list')
+            for item in candidate.get(field, []):
+                require(isinstance(item, dict) and evidence(item.get('evidence')),
+                        f'{field} entries need CV evidence')
+                require(text(item.get('name')) if field == 'industries' else
+                        text(item.get('employer')) or text(item.get('client')),
+                        f'{field} entry missing name/employer/client')
     for job in jobs.values():
         require(text(job.get('title')), 'JD title missing')
         criteria = indexed(job.get('criteria'), 'criteria')
@@ -161,12 +204,16 @@ def rank(data):
                     'Confirmed language findings need CV evidence')
             flags.append(dict(condition=language['condition'], required=language['required'], **check))
         extra = bonus(assessment.get('employers', []))
+        summary, requirements = match_summary(job, assessment, details)
         results[jid].append(dict(candidate_id=cid, candidate=candidates[cid]['name'],
                                  **{k: candidates[cid].get(k, '') for k in
                                     ('latest_location', 'phone', 'email', 'source_languages')},
                                  **{k: assessment.get(k, '') for k in
                                     ('relevant_experience', 'short_description')},
                                  score=core + extra, core=core, employer_bonus=extra,
+                                 match_summary=summary, requirement_details=requirements,
+                                 industries=candidates[cid].get('industries', []),
+                                 recent_assignments=candidates[cid].get('recent_assignments', []),
                                  evidence_coverage_pct=round(100 * coverage / 95, 1),
                                  uncertainty=dict(unknown_weight=unknown_weight,
                                                   confirmed_gap_points=confirmed_gap_points),

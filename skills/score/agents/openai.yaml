@@ -1,4 +1,4 @@
 interface:
   display_name: "Score"
-  short_description: "Rank CVs against JDs with evidence and language flags"
+  short_description: "Rank CVs with standard or detailed evidence output"
   default_prompt: "Use $score to rank these CVs separately against each attached job description."
