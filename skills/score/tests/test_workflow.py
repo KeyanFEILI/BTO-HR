@@ -106,6 +106,7 @@ class ContextTests(unittest.TestCase):
             equivalence_reason='Same delivered runtime scope under the frozen interpretation')
         criterion = self.data['jobs'][0]['criteria'][-1]
         criterion.update(priority='prerequisite', required=True)
+        next(r for r in self.data['jobs'][0]['requirements'] if r['id'] == criterion['id'])['group'] = 'must_have'
         self.data['assessments'][0]['ratings']['sector'].update(
             status='not_met', evidence=['example-cv.pdf p.1: No banking experience.'])
         row = rank.rank(self.data)[0]['ranking'][0]
