@@ -6,15 +6,46 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import evidence_cache
 import rank
 import workbook_plan
+import extract_text
 
 
 class CacheTests(unittest.TestCase):
+    def test_textless_page_preserves_other_pages_in_cache(self):
+        pages = [SimpleNamespace(extract_text=lambda: 'Fictional first page'),
+                 SimpleNamespace(extract_text=lambda: ''),
+                 SimpleNamespace(extract_text=lambda: 'Fictional third page')]
+        parser = SimpleNamespace(PdfReader=lambda _: SimpleNamespace(pages=pages))
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(sys.modules, {'pypdf': parser}):
+            source = Path(tmp)/'fictional.pdf'
+            source.write_bytes(b'fictional parser input')
+            cache = evidence_cache.EvidenceCache(Path(tmp)/'cache')
+            _, record, reused = cache.source(source)
+            self.assertFalse(reused)
+            self.assertIn('PAGE 1\nFictional first page', record['text'])
+            self.assertIn('PAGE 2\n[NO EXTRACTABLE TEXT', record['text'])
+            self.assertIn('PAGE 3\nFictional third page', record['text'])
+            self.assertTrue(cache.source(source)[2])
+
+    def test_fully_scanned_pdf_still_requires_ocr(self):
+        with self.assertRaisesRegex(ValueError, 'use OCR'):
+            extract_text.pdf_pages(['', '  '])
+
+    def test_pdftotext_keeps_page_numbers_and_textless_markers(self):
+        result = SimpleNamespace(returncode=0, stdout=b'First\f\fThird\f')
+        with patch.dict(sys.modules, {'pypdf': None}), patch.object(extract_text.shutil, 'which', return_value='pdftotext'), \
+                patch.object(extract_text.subprocess, 'run', return_value=result):
+            content = extract_text.extract('fictional.pdf')
+        self.assertIn('PAGE 2\n[NO EXTRACTABLE TEXT', content)
+        self.assertIn('PAGE 3\nThird', content)
+        self.assertNotIn('PAGE 4', content)
+
     def test_content_reuse_and_targeted_invalidation(self):
         with tempfile.TemporaryDirectory() as tmp:
             source = Path(tmp)/'fictional.txt'

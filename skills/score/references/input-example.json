@@ -176,35 +176,7 @@
       },
       "employers": [],
       "relevant_experience": "Cannot determine",
-      "short_description": "Python feature delivery evidenced; testing scope partially evidenced and banking experience unspecified.",
-      "requirement_ratings": {
-        "core": {
-          "status": "met",
-          "reason": "Direct production Python evidence.",
-          "evidence": [
-            "example-cv.pdf p.1: Built production services in Python."
-          ]
-        },
-        "delivery": {
-          "status": "partial",
-          "reason": "Testing evidenced; release responsibility unclear.",
-          "evidence": [
-            "example-cv.pdf p.1: Wrote unit tests."
-          ]
-        },
-        "scope": {
-          "status": "met",
-          "reason": "Independent feature ownership evidenced.",
-          "evidence": [
-            "example-cv.pdf p.1: Owned features from design to release."
-          ]
-        },
-        "sector": {
-          "status": "unknown",
-          "reason": "Banking sector is not stated.",
-          "evidence": []
-        }
-      }
+      "short_description": "Python feature delivery evidenced; testing scope partially evidenced and banking experience unspecified."
     }
   ]
 }

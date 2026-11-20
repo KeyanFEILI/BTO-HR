@@ -13,6 +13,14 @@ from xml.dom import minidom
 
 W='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 
+def pdf_pages(texts):
+    if not any(t.strip() for t in texts):
+        raise ValueError('PDF has no extractable text; inspect it and use OCR before mapping')
+    return '\n\n'.join(f'PAGE {i}\n{t}' if t.strip() else
+                       f'PAGE {i}\n[NO EXTRACTABLE TEXT: inspect this page visually or use OCR]'
+                       for i,t in enumerate(texts,1))
+
+
 def extract(source):
     source=Path(source)
     suffix=source.suffix.lower()
@@ -39,14 +47,11 @@ def extract(source):
             if binary is None:raise ValueError('PDF extraction needs pypdf or pdftotext in the selected runtime') from None
             result=subprocess.run([binary,'-enc','UTF-8',str(source),'-'],capture_output=True,timeout=60)
             if result.returncode:raise ValueError('pdftotext failed; inspect the source or use OCR')
-            return result.stdout.decode('utf-8')
+            pages=result.stdout.decode('utf-8').split('\f')
+            if pages and not pages[-1].strip():pages.pop()  # pdftotext's terminal page separator
+            return pdf_pages(pages)
         reader=PdfReader(source)
-        pages=[]
-        for i,page in enumerate(reader.pages,1):
-            text=page.extract_text() or ''
-            if not text.strip():raise ValueError(f'PDF page {i} has no extractable text; inspect it and use OCR before mapping')
-            pages.append(f'PAGE {i}\n{text}')
-        return '\n\n'.join(pages)
+        return pdf_pages([page.extract_text() or '' for page in reader.pages])
     raise ValueError('Supported source formats: PDF, DOCX and UTF-8 TXT')
 
 def main():
