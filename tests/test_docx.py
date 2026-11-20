@@ -9,10 +9,10 @@ builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
 W=builder.W
 class NativeWordTests(unittest.TestCase):
  def test_language_display_mapping_and_retention(self):
-  for source,expected in [('Native','Native'),('mother tongue','Native'),('Fluent','Fluent'),('C1','Fluent'),('C2','Fluent'),('B2','Professional'),('Basic','Professional'),('A1','Professional'),('A2','Professional'),('B1','Professional')]:
+  for source,expected in [('Native','Native'),('mother tongue','Native'),('Fluent','Fluent'),('C1','Fluent'),('C2','Fluent'),('B2','Professional'),('B1','Professional')]:
    for entry in ['French - '+source,'French ('+source+')','French: '+source.lower()]:
     with self.subTest(entry=entry):self.assertEqual(builder.language_label(entry),'French ('+expected+')')
-  data={'initials':'T.E.','languages':['French (Native)','English - C2','Spanish - A1','German - B1','Italian - B2','Japanese','Dutch - Intermediate','Portuguese - C2 (Business certified)','French - B1 (DELF certified)']}
+  data={'initials':'T.E.','languages':['French (Native)','English - C2','Spanish - B2','German - B1','Italian - B2','Japanese','Dutch - Intermediate','Portuguese - C2 (Business certified)','French - B1 (DELF certified)']}
   expected=['French (Native)','English (Fluent)','Spanish (Professional)','German (Professional)','Italian (Professional)','Japanese','Dutch (Professional)','Portuguese (Fluent)','French (Professional)']
   self.assertEqual(builder.normalize(data)['languages'],expected)
   self.assertEqual(builder.language_label('French (CEFR B1)'),'French (Professional)')
@@ -23,6 +23,10 @@ class NativeWordTests(unittest.TestCase):
    with zipfile.ZipFile(output) as z:doc=minidom.parseString(z.read('word/document.xml'))
    paras=doc.getElementsByTagNameNS(W,'p')
    self.assertEqual([builder.text(p) for p in paras if p.getElementsByTagNameNS(W,'numPr')],['Portuguese - Business certified','French - DELF certified']+expected)
+ def test_beginner_levels_are_not_promoted_to_professional(self):
+  for source in ['Basic','A1','A2']:
+   for entry in ['French - '+source,'French ('+source+')','French: '+source.lower()]:
+    with self.subTest(entry=entry),self.assertRaises(ValueError):builder.language_label(entry)
  def test_language_exams_move_to_certifications_without_losing_details(self):
   data={'initials':'T.E.','certifications':['French - DELF B1 certified | 2022'],
         'languages':['French (B1) (DELF B1 certified, 2022)','English: proficient (C1)','Spanish (B2 CEFR)',
@@ -42,7 +46,7 @@ class NativeWordTests(unittest.TestCase):
    self.assertEqual(content,['T.E.','CERTIFICATIONS AND TRAINING']+normalized['certifications']+['LANGUAGES']+normalized['languages'])
  def test_language_ranges_do_not_guess_or_leak_cefr(self):
   self.assertEqual(builder.language_label('English (C1/C2)'),'English (Fluent)')
-  self.assertEqual(builder.language_label('French (A1 / A2 / B1)'),'French (Professional)')
+  with self.assertRaises(ValueError):builder.language_label('French (A1 / A2 / B1)')
   self.assertEqual(builder.language_label('French-B1'),'French (Professional)')
   self.assertEqual(builder.language_parts('English - C1; IELTS (8.0, 2024)'),('English (Fluent)',['English - IELTS (8.0, 2024)']))
   self.assertEqual(builder.language_parts('English (IELTS 7.5, planned)'),('English',['English - IELTS 7.5, planned']))
