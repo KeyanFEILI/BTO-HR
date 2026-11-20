@@ -119,9 +119,9 @@ must follow the
 same ranking (`recommended_candidate_ids`), with unresolved prerequisites stated
 separately. If contextual reasoning changes the interpretation, revise the rubric
 for everyone and recalculate; do not name a different best match after scoring or
-raise scores merely to meet the Excel threshold. Report missing evidence
-(`uncertainty.unknown_weight`) separately from confirmed shortfalls and give a
-short, actionable validation list from `points_to_validate`. These do not change
+raise scores merely to meet the Excel threshold. Keep missing evidence (`uncertainty.unknown_weight`), confirmed shortfalls and
+`points_to_validate` in private data. In detailed output, show gap statuses in the
+combined evidence/evaluation table; no separate validation list unless requested. These do not change
 scores or act as hidden tie-breakers. Equal scores share a rank
 and retain input order; do not invent a preference between ties. Never describe
 the score as a hiring probability or a definitive judgment of competence.
@@ -131,8 +131,9 @@ chat ranking, using the unrounded total (exactly 60 qualifies). Do not name or
 describe candidates below 60 unless explicitly requested. Preserve calculator
 order and ranks. If none reaches 60, say the threshold was not met without listing
 names. In detailed mode follow [detailed-output.md](references/detailed-output.md):
-show the three-number synthesis first, then requirement evidence, industries and
-recent employers/clients. The remaining field restrictions below apply to standard
+show the three-number synthesis with role-title columns first, then one combined
+evidence/evaluation table per JD. Put industries, recent employers/clients and
+location at the end. Do not add methodology prose or validation questions. The remaining field restrictions below apply to standard
 mode. For each standard-mode candidate show only: rank, match percentage, full name,
 city/country location and a concise fit/gap description. Show phone number and
 email only when the unrounded final score is >=80 (exactly 80 qualifies). Do not

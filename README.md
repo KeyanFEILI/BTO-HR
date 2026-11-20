@@ -2,6 +2,11 @@
 
 Convert an original PDF or Word CV into an editable BTO Word document in English, using the bundled R.R./A.F.R. master, Century Gothic typography and native square bullet lists.
 
+Version **4.1.2** aligns detailed output with the shared reference: role-title
+columns in the three-metric synthesis, one combined evidence/evaluation table per
+JD, and industries, recent employers/clients and location at the end. Methodology
+paragraphs and unsolicited validation questions stay out of the output.
+
 Version **4.1.1** reuses identical requirement ratings, rejects contradictory or
 duplicate checklist evidence, and caches readable PDF pages while marking textless
 pages for inspection. Named-candidate follow-ups reuse the existing ranking.
