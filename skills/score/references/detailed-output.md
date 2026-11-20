@@ -43,49 +43,59 @@ criteria are individual skills. This enrichment does not change old ratings.
 
 ## Presentation order
 
-Start with the JD title and a three-row synthesis table, matching the user's
-reference layout. Candidate names are columns; for many candidates, split into
-readable groups while preserving ranking order. Keep the default >=60 threshold
-unless the user explicitly requests a lower-scoring candidate.
+For each displayed candidate, use their full name as the heading. Start with the
+three-row synthesis below. Columns are the actual JD role titles, even for one
+JD; never use "Result" or candidate names as those column headers. For multiple
+JDs, place eligible role results side by side. Keep the existing >=60 display
+threshold unless the user explicitly requests other results. Preserve each JD's
+calculated rank/order; do not invent a cross-role aggregate ranking.
 
-| Metric | Example Candidate |
-| --- | --- |
-| Must-Have Skills Matched | 3 / 5 (60.0%) |
-| Good-to-Have Skills Matched | 1 / 2 (50.0%) |
-| Overall Weighted Score | 74.5% |
+| Metric | Intent Engineer | AI Engineer |
+| --- | --- | --- |
+| Must-Have Skills Matched | 18 / 25 (72.0%) | 19 / 26 (73.1%) |
+| Good-to-Have Skills Matched | 1 / 5 (20.0%) | 1 / 5 (20.0%) |
+| Overall Weighted Score | 61.6% | 62.5% |
 
-Then provide each candidate's rank, name and location, followed by a table:
+Then create **one combined evidence/evaluation table per JD**, headed by the
+actual role title. Requirements differ between roles: never pool them in one
+shared evidence table or reuse one JD's evidence mapping for another.
 
-| Required Skill / JD Requirement | Resume Evidence |
-| --- | --- |
-| Example required platform | **Matched** — delivered in the stated assignment; CV filename p.2, short quote. |
-| Example optional tool | **Partial (nice-to-have)** — related delivery documented; requested tool unverified. |
-| Example prerequisite | **Not met** — source explicitly confirms the shortfall. |
-| Example required method | **Not evidenced** — no supporting CV statement found. |
+| JD Requirement | Resume Evidence | Evaluation |
+| --- | --- | --- |
+| Example required platform | Used in the current role at Example Company. | Matched; criterion points / weight |
+| Example optional tool (nice-to-have) | Related delivery documented; requested tool not stated. | Partial; criterion points / weight |
+| Example prerequisite | Source explicitly confirms a shortfall. | Not met; criterion points / weight |
+| Example required method | Not stated in the CV. | Not evidenced; criterion points / weight |
 
-Cover the complete frozen checklist, including gaps and preferred requirements.
-Each row must make the JD requirement and supporting CV evidence easy to trace;
-name the employer/client/role when explicitly supported. Keep quotes short and
-reasons specific. Follow with a concise evaluation rationale: strongest evidence,
-material gaps, and missing evidence versus confirmed shortfalls. Never hide a prerequisite gap behind a high total. Include
-the weighted criterion breakdown (criterion, weight, awarded points) and
-state role-fit subtotal and employer bonus separately so the final score is
-auditable; do not repeat evidence/reasons already in the requirement table or put
-calculations into the fit/gap description. Keep all validation questions in the
-single final points-to-validate list.
+Cover the complete frozen requirement checklist, including preferred requirements
+and gaps. Keep evidence concise and factual, using the CV's employer/client and
+role context where available. Keep exact quotes, filenames and page references
+in private assessment data unless the user asks for citations. Distinguish partial,
+confirmed shortfall and missing evidence in the Evaluation column itself.
 
-Finish each candidate with:
-- **Industries:** CV-supported sectors, deduplicated; use "Not stated" if absent.
-- **Recent employers / clients:** the three most recent assignments by supported
-  dates (or fewer if available), preserving ongoing/overlapping roles. Show employer,
-  client when named, role and source date range. Do not combine client and employer
-  into one company or invent months to resolve ambiguous order.
-- **Points to validate:** a short actionable list, including language/availability
-  prerequisites when relevant. Contact details follow the >=80 display rule.
+Combine weighted evaluation with the evidence rows; never add a separate scoring
+breakdown table. When several requirements share one weighted criterion, show its
+awarded points/weight only once, clearly labelled with that criterion; do not
+repeat or invent individual requirement points. Add role-fit subtotal, employer
+bonus and final total as bottom rows of that same table. Counts and all totals
+come from the calculator unchanged. This presentation never changes scores.
+
+Do not add introductory methodology/counting explanations, source-file preambles,
+standalone evaluation prose, warnings about interpreting the score, conclusions,
+interview questions or a "Points to validate" section. Keep those notes private;
+show material gaps directly in the table. Provide extra explanation only when
+explicitly requested. Contact details follow the >=80 display rule, before the
+final background block.
+
+Finish each candidate with these fields, after all their JD tables:
+- **Industries:** CV-supported sectors, deduplicated; "Not stated" if absent.
+- **Recent employers / clients:** the three latest assignments by supported dates
+  (or fewer if available). Keep employer and client distinct; include role and
+  source date range. Preserve ongoing/overlapping roles without inventing months.
+- **Location:** supported city/country; "Not provided" if absent.
 
 Store industries as `candidates[].industries: [{name, evidence}]` and assignment
 history as `recent_assignments: [{employer, client, role, period, evidence}]`.
-Extract these from the CV once, using its industry context rather than guessing
-from company names. These fields are background context, never extra score
-components. Do not copy screenshots' example people, numbers or technologies into
-real assessments. Do not add these fields as workbook columns.
+Extract these from the CV once. These fields are background context, never extra
+score components. The example numbers/roles above illustrate layout only; never
+copy them into real assessments. Do not add these fields as workbook columns.
