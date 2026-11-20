@@ -5,12 +5,12 @@
 Resolve the destination from `SCORE_WORKBOOK_URL`, or from a private
 `references/workbook.local.json` beside this file containing
 `{"url": "the user-provided Excel sharing link"}`. Never commit that file.
-If neither is configured, ask once for the shared workbook link and retain it
+Only when an Excel update is requested: if neither is configured, ask once for the shared workbook link and retain it
 in that private local configuration when authorised. Never guess the destination.
 A colleague must configure their own authorised link; no workbook is bundled.
 
-Follow the chat-first sequence in [SKILL.md](../SKILL.md), including revised
-rankings. This is an in-task update, not a background watcher. Keep the link and
+Use this workflow only after an explicit Excel-update request. Follow the
+chat-first sequence in [SKILL.md](../SKILL.md), including revised rankings. This is an in-task update, not a background watcher. Keep the link and
 candidate data private; do not put them in a public repository. Never change
 sharing permissions or send invitations. Other users need their own existing
 workbook access; installing this skill does not grant it.
@@ -83,7 +83,7 @@ the delivered list. No second extraction or scoring pass is needed. Only candida
 with a final score >=80/100 (including exactly 80) are eligible by default;
 an explicit user selection overrides the threshold for the named candidates only.
 Use `--selected-id` only for this explicit selection and record it privately.
-Never inflate scores or silently lower the threshold. For automatic exports,
+Never inflate scores or silently lower the threshold. For requested exports,
 use the unrounded calculator score, including its employer bonus. Without an
 explicit selection, do not add or update rows below 80. Never delete their
 pre-existing rows.
@@ -124,16 +124,15 @@ it matches identities and emits only changed adjacent ranges, with before-values
 for conflict detection. It never modifies a workbook itself.
 
 
-Batch reads and writes through the connected workbook tool when available; cache
-sheet names, headers and format observations for this run. In Excel web, prefer
-rectangular range operations when supported. If falling back to individual cells,
-wait until the accessible cell reference matches the intended address before
-reading or typing. Name Box text alone does not confirm selection has settled.
-Commit an edit and confirm it completed before navigating to the next cell. A
-timeout may leave a partial write: re-read the affected range and resume only
-missing/different values, never replay the whole append. After one recovery for
-the same transport/selection failure, retain pending changes and report the
-blocker instead of cycling through copy, paste, formatting and reload attempts.
+Prefer batch range reads/writes through a connected workbook tool. Otherwise use
+one rectangular UI paste per contiguous changed block, preserving manual columns.
+Cache the common schema for this workbook/run, validate the target headers once,
+and read back affected ranges once after writing. Reuse an existing template for
+new sheets rather than rebuilding formatting cell by cell. Avoid cosmetic work
+unrelated to correct placement. If batch writes/paste are unavailable, report the
+blocker and retain a paste-ready local export; do not silently enter a lengthy
+cell-by-cell workflow. Resume only when a bulk route is available or the user
+explicitly requests the slower fallback.
 
 Write sequentially to the workbook. Re-read the
 affected rows immediately before writing if colleagues are editing; refresh and

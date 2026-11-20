@@ -2,7 +2,12 @@
 
 Convert an original PDF or Word CV into an editable BTO Word document in English, using the bundled R.R./A.F.R. master, Century Gothic typography and native square bullet lists.
 
-Version **4.0.4** applies 5 pt after-spacing to every IT SKILLS bullet, including
+Version **4.1.0** adds standard and detailed Score modes with the same assessment
+and weighted score. Detailed mode starts with must-have/nice-to-have match counts
+and overall score, followed by CV evidence, industries and recent employers/clients.
+Excel updates are now explicit-request only, with batch writes preferred.
+
+The CV formatter applies 5 pt after-spacing to every IT SKILLS bullet, including
 category-final bullets, using the same visible-gap logic as experience lists.
 IT SKILLS consolidates repeated or overlapping descriptions where meaning is
 preserved; distinct technologies, versions and proficiency qualifiers remain.
@@ -52,23 +57,21 @@ city/country, and a brief fit/gap description. Phone and email appear in chat
 only at **>=80/100**. Lower-scoring candidates are assessed privately and shown
 only when explicitly requested.
 
-Each ranking also updates the configured shared Excel workbook when accessible.
-Final scores **>=80/100** qualify for automatic export; explicit user selection
-can override this for named candidates without changing their scores. Match the JD
-to an existing role sheet. Create a sheet for an unrelated role using the JD title
-and existing headers. Repeated candidates update their existing row, missing
-details stay blank, and colleague-managed fields are preserved. Existing headers
-are never added, renamed or reordered; fields without a column stay in private
-notes. Rank remains chat-only and is not written to Excel. XP uses plain years or
-ranges. Language flags, batch labels and score arithmetic are not appended to
-workbook descriptions or new columns. No background process or workbook access
-is installed.
+Use natural wording such as **"detailed scoring"** or **"explain this candidate in
+detail"** to switch output modes. The three summary metrics count fully evidenced
+requirements; partial matches remain visible in the evidence table. The weighted
+score and ranking never change just because the output mode changes.
 
-Configure the workbook with `SCORE_WORKBOOK_URL` or a private, ignored
-`skills/score/references/workbook.local.json` containing `{"url": "your sharing link"}`.
-Colleagues need their own existing workbook access. The agent verifies writes and
-reports sign-in/access blockers; it never replaces the shared file with a local
-copy. See [the shared-workbook workflow](skills/score/references/shared-workbook.md).
+Excel is secondary: **"update Excel"** explicitly requests synchronization after
+the chat assessment. Scores **>=80/100** qualify by default; an explicit named
+selection may override that threshold. Reuse existing sheets/headers and preserve
+manual fields. Use bulk range operations and one verification pass; if no bulk
+route works, report the blocker instead of silently editing cell by cell. No
+candidate data, workbook links or credentials belong in this repository.
+
+For requested updates, configure `SCORE_WORKBOOK_URL` or a private ignored
+`skills/score/references/workbook.local.json` with `{"url": "your sharing link"}`.
+Colleagues need existing workbook access. See [the shared-workbook workflow](skills/score/references/shared-workbook.md).
 
 ## Trello Talent Pool
 

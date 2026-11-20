@@ -65,6 +65,40 @@
           "condition": "English C1 required",
           "required": true
         }
+      ],
+      "requirements": [
+        {
+          "id": "core",
+          "text": "Production Python development",
+          "group": "must_have",
+          "jd_evidence": [
+            "example-jd.pdf p.1: Production Python development."
+          ]
+        },
+        {
+          "id": "delivery",
+          "text": "Automated testing and reliable delivery",
+          "group": "must_have",
+          "jd_evidence": [
+            "example-jd.pdf p.1: Automated testing and reliable delivery."
+          ]
+        },
+        {
+          "id": "scope",
+          "text": "Independent feature delivery",
+          "group": "must_have",
+          "jd_evidence": [
+            "example-jd.pdf p.1: Independent feature delivery."
+          ]
+        },
+        {
+          "id": "sector",
+          "text": "Banking projects (desirable)",
+          "group": "nice_to_have",
+          "jd_evidence": [
+            "example-jd.pdf p.1: Banking projects (desirable)."
+          ]
+        }
       ]
     }
   ],
@@ -75,7 +109,26 @@
       "latest_location": "",
       "phone": "",
       "email": "",
-      "source_languages": "English: level unspecified"
+      "source_languages": "English: level unspecified",
+      "industries": [
+        {
+          "name": "Software services",
+          "evidence": [
+            "example-cv.pdf p.1: Software services"
+          ]
+        }
+      ],
+      "recent_assignments": [
+        {
+          "employer": "Example Consultancy",
+          "client": "Example Client",
+          "role": "Developer",
+          "period": "2024–2025",
+          "evidence": [
+            "example-cv.pdf p.1: Developer at Example Consultancy for Example Client, 2024–2025"
+          ]
+        }
+      ]
     }
   ],
   "assessments": [
@@ -123,7 +176,35 @@
       },
       "employers": [],
       "relevant_experience": "Cannot determine",
-      "short_description": "Python feature delivery evidenced; testing scope partially evidenced and banking experience unspecified."
+      "short_description": "Python feature delivery evidenced; testing scope partially evidenced and banking experience unspecified.",
+      "requirement_ratings": {
+        "core": {
+          "status": "met",
+          "reason": "Direct production Python evidence.",
+          "evidence": [
+            "example-cv.pdf p.1: Built production services in Python."
+          ]
+        },
+        "delivery": {
+          "status": "partial",
+          "reason": "Testing evidenced; release responsibility unclear.",
+          "evidence": [
+            "example-cv.pdf p.1: Wrote unit tests."
+          ]
+        },
+        "scope": {
+          "status": "met",
+          "reason": "Independent feature ownership evidenced.",
+          "evidence": [
+            "example-cv.pdf p.1: Owned features from design to release."
+          ]
+        },
+        "sector": {
+          "status": "unknown",
+          "reason": "Banking sector is not stated.",
+          "evidence": []
+        }
+      }
     }
   ]
 }

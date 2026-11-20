@@ -23,6 +23,49 @@ class RankingTests(unittest.TestCase):
                     relevance='Python delivery on the relevant project',
                     evidence=['example-cv.pdf p.1: Python developer at Example Consultancy.'])
 
+    def test_detailed_counts_do_not_change_scores(self):
+        before = engine.rank(self.data)[0]['ranking'][0]
+        job = self.data['jobs'][0]
+        job['requirements'] = [dict(id=k, text=k, group=g, jd_evidence=['example-jd.pdf p.1: '+k])
+                               for k, g in [('python', 'must_have'), ('tests', 'must_have'),
+                                            ('banking', 'nice_to_have')]]
+        self.data['assessments'][0]['requirement_ratings'] = {
+            'python': dict(status='met', reason='Delivered', evidence=['example-cv.pdf p.1: Python delivery']),
+            'tests': dict(status='partial', reason='Limited tests', evidence=['example-cv.pdf p.1: Unit tests']),
+            'banking': dict(status='unknown', reason='Not stated', evidence=[])}
+        candidate = self.data['candidates'][0]
+        candidate['industries'] = [dict(name='Software', evidence=['example-cv.pdf p.1: Software services'])]
+        candidate['recent_assignments'] = [dict(employer='Example Co', client='', role='Developer',
+                                               period='2024–2025', evidence=['example-cv.pdf p.1: Developer'])]
+        row = engine.rank(self.data)[0]['ranking'][0]
+        self.assertEqual(row['match_summary']['must_have'], dict(matched=1, total=2, percentage=50.0))
+        self.assertEqual(row['match_summary']['nice_to_have'], dict(matched=0, total=1, percentage=0.0))
+        self.assertEqual(row['score'], before['score'])
+        self.assertEqual(row['rank'], before['rank'])
+        self.assertEqual(row['industries'], candidate['industries'])
+        self.assertEqual(row['recent_assignments'], candidate['recent_assignments'])
+        del self.data['assessments'][0]['requirement_ratings']['tests']
+        with self.assertRaisesRegex(ValueError, 'Incomplete requirement'):
+            engine.rank(self.data)
+
+    def test_empty_optional_group_is_not_zero_percent(self):
+        self.data['jobs'][0]['requirements'] = [dict(id='python', text='Python', group='must_have',
+                                                     jd_evidence=['example-jd.pdf p.1: Python'])]
+        rating = dict(status='met', reason='Delivered', evidence=['example-cv.pdf p.1: Python'])
+        self.data['assessments'][0]['requirement_ratings'] = {'python': rating}
+        row = engine.rank(self.data)[0]['ranking'][0]
+        self.assertEqual(row['match_summary']['nice_to_have'], dict(matched=0, total=0, percentage=None))
+        rating['evidence'] = []
+        with self.assertRaisesRegex(ValueError, 'requirement ratings need CV evidence'):
+            engine.rank(self.data)
+
+    def test_legacy_counts_are_labelled_and_history_requires_evidence(self):
+        self.data['jobs'][0].pop('requirements', None)
+        self.assertEqual(engine.rank(self.data)[0]['ranking'][0]['match_summary']['basis'], 'grouped_criteria')
+        self.data['candidates'][0]['industries'] = [dict(name='Banking')]
+        with self.assertRaisesRegex(ValueError, 'industries entries need CV evidence'):
+            engine.rank(self.data)
+
     def test_weights_evidence_and_totals(self):
         row = engine.rank(self.data)[0]['ranking'][0]
         self.assertEqual(row['core'], 70)
