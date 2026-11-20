@@ -17,7 +17,9 @@ assessment" or "explain this candidate in detail" select detailed mode; no speci
 command or second skill is needed. Keep the selected mode for follow-ups in the
 same scoring task unless the user switches it. Both modes use the same rubric,
 ratings, scores, ordering and thresholds. Switching mode reuses existing evidence
-and assessments; it never changes a score by itself.
+and assessments; it never changes a score by itself. For a named-candidate
+follow-up, enrich only that candidate’s requested detail; reuse the existing full
+ranking rather than redoing other profiles.
 
 ## Prepare once
 
@@ -26,7 +28,9 @@ folder to extract each distinct attachment once through `extract_text.py`. Reuse
 the cached text and reconciled profile across JDs; do not re-extract on a wording
 or workbook-only revision. See [workflow.md](references/workflow.md) for cache
 reuse and range-write planning. Inspect unreadable pages, tables and
-relevant headers/images separately; OCR when available. Ask only about material
+relevant headers/images separately; OCR when available. A cached PDF marker
+`NO EXTRACTABLE TEXT` requires visual/OCR reconciliation of that page before
+assessment; retain the other pages instead of re-extracting the whole CV. Ask only about material
 ambiguity, conflicting identity or unreadable content. Do not send CVs to web
 search or other services to research a candidate.
 

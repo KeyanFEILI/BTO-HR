@@ -2,6 +2,10 @@
 
 Convert an original PDF or Word CV into an editable BTO Word document in English, using the bundled R.R./A.F.R. master, Century Gothic typography and native square bullet lists.
 
+Version **4.1.1** reuses identical requirement ratings, rejects contradictory or
+duplicate checklist evidence, and caches readable PDF pages while marking textless
+pages for inspection. Named-candidate follow-ups reuse the existing ranking.
+
 Version **4.1.0** adds standard and detailed Score modes with the same assessment
 and weighted score. Detailed mode starts with must-have/nice-to-have match counts
 and overall score, followed by CV evidence, industries and recent employers/clients.

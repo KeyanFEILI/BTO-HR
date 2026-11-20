@@ -26,7 +26,7 @@ class RankingTests(unittest.TestCase):
     def test_detailed_counts_do_not_change_scores(self):
         before = engine.rank(self.data)[0]['ranking'][0]
         job = self.data['jobs'][0]
-        job['requirements'] = [dict(id=k, text=k, group=g, jd_evidence=['example-jd.pdf p.1: '+k])
+        job['requirements'] = [dict(id=k, text=k, group=g, criterion_id={'python':'core','tests':'delivery','banking':'sector'}[k], jd_evidence=['example-jd.pdf p.1: '+k])
                                for k, g in [('python', 'must_have'), ('tests', 'must_have'),
                                             ('banking', 'nice_to_have')]]
         self.data['assessments'][0]['requirement_ratings'] = {
@@ -49,7 +49,7 @@ class RankingTests(unittest.TestCase):
             engine.rank(self.data)
 
     def test_empty_optional_group_is_not_zero_percent(self):
-        self.data['jobs'][0]['requirements'] = [dict(id='python', text='Python', group='must_have',
+        self.data['jobs'][0]['requirements'] = [dict(id='python', text='Python', group='must_have', criterion_id='core',
                                                      jd_evidence=['example-jd.pdf p.1: Python'])]
         rating = dict(status='met', reason='Delivered', evidence=['example-cv.pdf p.1: Python'])
         self.data['assessments'][0]['requirement_ratings'] = {'python': rating}
@@ -64,6 +64,43 @@ class RankingTests(unittest.TestCase):
         self.assertEqual(engine.rank(self.data)[0]['ranking'][0]['match_summary']['basis'], 'grouped_criteria')
         self.data['candidates'][0]['industries'] = [dict(name='Banking')]
         with self.assertRaisesRegex(ValueError, 'industries entries need CV evidence'):
+            engine.rank(self.data)
+
+    def test_matching_requirements_reuse_weighted_ratings(self):
+        original = engine.rank(self.data)[0]['ranking'][0]
+        rating = self.data['assessments'][0]['ratings']['delivery']
+        rating.update(status='met', rating=1, evidence=['example-cv.pdf p.1: Owns testing and release'])
+        row = engine.rank(self.data)[0]['ranking'][0]
+        self.assertEqual(row['match_summary']['must_have']['matched'], 3)
+        self.assertEqual(row['score'], original['score'] + 15)
+        self.assertEqual(row['requirement_details'][1]['evidence'], rating['evidence'])
+
+    def test_contradictions_duplicates_and_unlinked_requirements_fail(self):
+        source = copy.deepcopy(self.data)
+        self.data['assessments'][0]['requirement_ratings'] = {
+            'core': dict(status='partial', reason='Limited scope', evidence=['example-cv.pdf p.1: Some Python'])}
+        with self.assertRaisesRegex(ValueError, 'contradicts'):
+            engine.rank(self.data)
+        self.data = copy.deepcopy(source)
+        duplicate = copy.deepcopy(self.data['jobs'][0]['requirements'][0])
+        duplicate.update(id='another-id', text='  PRODUCTION   PYTHON DEVELOPMENT  ', criterion_id='core')
+        self.data['jobs'][0]['requirements'].append(duplicate)
+        with self.assertRaisesRegex(ValueError, 'Duplicate requirement text'):
+            engine.rank(self.data)
+        self.data = copy.deepcopy(source)
+        self.data['jobs'][0]['requirements'][0]['criterion_id'] = 'invented'
+        with self.assertRaisesRegex(ValueError, 'valid criterion_id'):
+            engine.rank(self.data)
+        self.data = copy.deepcopy(source)
+        self.data['jobs'][0]['requirements'][0]['group'] = 'nice_to_have'
+        with self.assertRaisesRegex(ValueError, 'Requirement group contradicts'):
+            engine.rank(self.data)
+
+    def test_unverified_subrequirement_cannot_support_full_group_match(self):
+        self.data['jobs'][0]['requirements'][0]['text'] = 'Production Python concurrency'
+        self.data['assessments'][0]['requirement_ratings'] = {
+            'core': dict(status='unknown', reason='Concurrency not stated', evidence=[])}
+        with self.assertRaisesRegex(ValueError, 'contradicts its weighted criterion'):
             engine.rank(self.data)
 
     def test_weights_evidence_and_totals(self):

@@ -69,22 +69,40 @@ def match_summary(job, assessment, details):
         basis = 'grouped_criteria'
     else:
         indexed(requirements, 'requirements')
+        criteria = {c['id']: c for c in job['criteria']}
         ratings = assessment.get('requirement_ratings', {})
-        require(isinstance(ratings, dict) and set(ratings) == {r['id'] for r in requirements},
-                'Incomplete requirement ratings')
-        rows = []
+        require(isinstance(ratings, dict) and set(ratings) <= {r['id'] for r in requirements},
+                'Unknown requirement rating IDs')
+        rows, seen_text = [], set()
         for item in requirements:
             require(text(item.get('text')) and evidence(item.get('jd_evidence')),
                     'Requirements need their text and JD evidence')
             require(item.get('group') in ('must_have', 'nice_to_have'), 'Invalid requirement group')
-            rating = ratings[item['id']]
+            normalized = ' '.join(item['text'].casefold().split())
+            require(normalized not in seen_text, 'Duplicate requirement text inflates match counts')
+            seen_text.add(normalized)
+            criterion_id = item.get('criterion_id', item['id'])
+            require(text(criterion_id) and criterion_id in criteria, 'Requirement needs a valid criterion_id')
+            criterion = criteria[criterion_id]
+            scored = assessment['ratings'][criterion_id]
+            same_requirement = normalized == ' '.join(criterion['text'].casefold().split())
+            require(not same_requirement or item['group'] ==
+                    ('must_have' if criterion.get('required') else 'nice_to_have'),
+                    'Requirement group contradicts the same weighted criterion')
+            rating = ratings.get(item['id'], scored if same_requirement else None)
+            require(rating is not None, 'Incomplete requirement ratings; assess individual requirements')
             require(isinstance(rating, dict) and rating.get('status') in
                     ('met', 'partial', 'not_met', 'unknown') and text(rating.get('reason')),
                     'Invalid requirement rating')
             require(rating['status'] == 'unknown' or evidence(rating.get('evidence')),
                     'Supported requirement ratings need CV evidence')
-            rows.append(dict(**item, status=rating['status'], reason=rating['reason'],
-                             evidence=rating.get('evidence', [])))
+            require(not same_requirement or rating['status'] == scored['status'],
+                    'Requirement status contradicts the same weighted criterion')
+            require(not (scored['status'] == 'met' and rating['status'] != 'met') and
+                    not (scored['status'] == 'unknown' and rating['status'] != 'unknown'),
+                    'Requirement evidence contradicts its weighted criterion; reconcile before delivery')
+            rows.append({**item, 'criterion_id': criterion_id, 'status': rating['status'],
+                         'reason': rating['reason'], 'evidence': rating.get('evidence', [])})
         basis = 'requirements'
     summary = {'basis': basis}
     for group in ('must_have', 'nice_to_have'):

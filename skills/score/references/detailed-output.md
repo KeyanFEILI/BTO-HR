@@ -7,7 +7,7 @@ second scoring engine. Excel remains opt-in and uses concise descriptions.
 ## Freeze the requirement checklist
 
 Before rating candidates, add `jobs[].requirements`: a list of `{id, text, group,
-jd_evidence}`, where `group` is `must_have` or `nice_to_have`. These are individual,
+criterion_id, jd_evidence}`, where `group` is `must_have` or `nice_to_have`. These are individual,
 distinct JD requirements, separate from the broader weighted scoring criteria.
 Keep the JD wording/meaning: a named required tool may be its own requirement,
 but "Python or Bash" is one alternative requirement, not two mandatory skills.
@@ -17,12 +17,22 @@ Exclude languages and employer reputation from skill counts; retain language
 checks separately. Include explicit education/tenure prerequisites once each,
 labelled as qualifications rather than technical skills in the evidence table.
 
-Each assessment supplies `requirement_ratings`, keyed by requirement ID, with
+Link every requirement to its weighted criterion with `criterion_id` (defaults
+to the requirement ID when identical). When requirement text is identical to that
+criterion, reuse its existing rating automatically: do not duplicate the rating or
+quote in JSON. For older individual checklists with different IDs, add the
+corresponding `criterion_id` links once using the frozen rubric. Only independently
+worded subrequirements need
+`requirement_ratings`, keyed by requirement ID, with
 `status`, `reason` and `evidence`. Statuses are `met`, `partial`, `not_met`,
 `unknown`; use short exact CV quotes with filename/page for supported findings.
 `met` means fully evidenced; partial evidence does not count as a full match.
 Missing evidence is "Not evidenced", not proof the candidate lacks the skill.
-These counts never feed back into the weighted score or employer bonus.
+These counts never feed back into the weighted score or employer bonus. The
+calculator rejects conflicting statuses for the same requirement, a fully met
+criterion containing an unverified subrequirement, and an unknown criterion with
+supported subrequirements. Reconcile genuine interpretation conflicts across all
+candidates; never change ratings merely to improve match counts.
 
 `rank.py` returns `match_summary` and `requirement_details`. Use their values
 unchanged. A group with no requirements displays `N/A (none specified)`, not 0%.
@@ -57,11 +67,12 @@ Cover the complete frozen checklist, including gaps and preferred requirements.
 Each row must make the JD requirement and supporting CV evidence easy to trace;
 name the employer/client/role when explicitly supported. Keep quotes short and
 reasons specific. Follow with a concise evaluation rationale: strongest evidence,
-material gaps, missing evidence versus confirmed shortfalls, and targeted
-validation questions. Never hide a prerequisite gap behind a high total. Include
-the weighted criterion breakdown (criterion, weight, awarded points, reason) and
+material gaps, and missing evidence versus confirmed shortfalls. Never hide a prerequisite gap behind a high total. Include
+the weighted criterion breakdown (criterion, weight, awarded points) and
 state role-fit subtotal and employer bonus separately so the final score is
-auditable; do not put calculations into the fit/gap description.
+auditable; do not repeat evidence/reasons already in the requirement table or put
+calculations into the fit/gap description. Keep all validation questions in the
+single final points-to-validate list.
 
 Finish each candidate with:
 - **Industries:** CV-supported sectors, deduplicated; use "Not stated" if absent.
